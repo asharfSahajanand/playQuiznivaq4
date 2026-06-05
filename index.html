@@ -208,6 +208,9 @@
           googletag.pubads().addEventListener("rewardedSlotClosed", function () {
             console.log("❌ Rewarded ad closed");
             googletag.destroySlots([rewardedSlot]);
+            document.getElementById('treasure-popup').classList.add('hidden');
+  window.location.href = '/playquiz.html';
+
           });
 
           googletag.display(rewardedSlot);
