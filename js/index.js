@@ -17,7 +17,10 @@ let quizjson = `[
   {"q_id":1591,"question":"Which programming language is known as the 'language of the web'?","answer":"Python,Java,JavaScript,C++","correct":"JavaScript","time":"1652710530","coins":100,"sc_id":24,"title":"Programming","c_id":13,"c_name":"Technology","c_img":"tech.png","sc_img":"tech.png","totalprice":10000,"entryFee":50,"live":1},
   {"q_id":1592,"question":"In which year did World War II end?","answer":"1943,1944,1945,1946","correct":"1945","time":"1652710530","coins":100,"sc_id":25,"title":"History","c_id":14,"c_name":"History","c_img":"history.png","sc_img":"history.png","totalprice":10000,"entryFee":50,"live":1}
 ]`;
-
+function claimAndContinue() {
+  document.getElementById('treasure-popup').classList.add('hidden');
+  nextQuestion();
+}
 // Parse quiz data into JSON format and randomly select 2 questions
 const allQuizData = JSON.parse(quizjson);
 const selectedQuestions = getRandomQuestions(allQuizData, 2);
@@ -142,10 +145,7 @@ function checkAnswer(selectedAnswer, index) {
   setTimeout(nextQuestion, 1000);
 }
 }
-function claimAndContinue() {
-  document.getElementById('treasure-popup').classList.add('hidden');
-  nextQuestion();
-}
+
 // Function to move to the next question
 function nextQuestion() {
   resultElement.style.display = "none";
