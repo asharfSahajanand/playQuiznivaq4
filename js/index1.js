@@ -157,8 +157,8 @@ function nextQuestion() {
     localStorage.setItem("is_played", 1);
     localStorage.setItem("rewarded", 0);
     // closereward();
-    treasureopen(); // Call function to handle end of quiz actions
-   // window.location.href = '/playquiz.html';
+    //treasureopen(); // Call function to handle end of quiz actions
+    window.location.href = '/playquiz.html';
   }
 }
 
