@@ -133,9 +133,19 @@ function checkAnswer(selectedAnswer, index) {
   }
 
   resultElement.style.display = "none";
-  setTimeout(nextQuestion, 1000); // Move to next question after delay
+  //setTimeout(nextQuestion, 1000); // Move to next question after delay
+  if (currentQuestionIndex === 0) {
+  setTimeout(() => {
+    document.getElementById('treasure-popup').classList.remove('hidden');
+  }, 1000);
+} else {
+  setTimeout(nextQuestion, 1000);
 }
-
+}
+function claimAndContinue() {
+  document.getElementById('treasure-popup').classList.add('hidden');
+  nextQuestion();
+}
 // Function to move to the next question
 function nextQuestion() {
   resultElement.style.display = "none";
@@ -156,7 +166,8 @@ function nextQuestion() {
     localStorage.setItem("is_played", 1);
     localStorage.setItem("rewarded", 0);
     // closereward();
-    treasureopen(); // Call function to handle end of quiz actions
+   // treasureopen(); // Call function to handle end of quiz actions
+    window.location.href = '/playquiz.html';
   }
 }
 
