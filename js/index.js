@@ -17,45 +17,6 @@ let quizjson = `[
   {"q_id":1591,"question":"Which programming language is known as the 'language of the web'?","answer":"Python,Java,JavaScript,C++","correct":"JavaScript","time":"1652710530","coins":100,"sc_id":24,"title":"Programming","c_id":13,"c_name":"Technology","c_img":"tech.png","sc_img":"tech.png","totalprice":10000,"entryFee":50,"live":1},
   {"q_id":1592,"question":"In which year did World War II end?","answer":"1943,1944,1945,1946","correct":"1945","time":"1652710530","coins":100,"sc_id":25,"title":"History","c_id":14,"c_name":"History","c_img":"history.png","sc_img":"history.png","totalprice":10000,"entryFee":50,"live":1}
 ]`;
-function claimAndContinue() {
-  // Pehle rewarded ad chalao, ad close hone par Q2 dikhega
-  googletag.cmd.push(function () {
-    if (!googletag.enums.OutOfPageFormat?.REWARDED) {
-      // Rewarded support nahi — seedha next question
-      document.getElementById('treasure-popup').classList.add('hidden');
-      document.getElementById('treasure-popup').style.display = 'none';
-      nextQuestion();
-      return;
-    }
-
-    const rewardedSlot = googletag
-      .defineOutOfPageSlot(
-        '/23330730517/Quizniva.com_rewarded',
-        googletag.enums.OutOfPageFormat.REWARDED
-      )
-      .addService(googletag.pubads());
-
-    googletag.pubads().addEventListener('rewardedSlotReady', function (e) {
-      console.log('Ad ready');
-      e.makeRewardedVisible();
-    });
-
-    googletag.pubads().addEventListener('rewardedSlotGranted', function () {
-      console.log('Reward granted — coins doge yahan');
-      // Yahan coins API call kar sakte ho
-    });
-
-    googletag.pubads().addEventListener('rewardedSlotClosed', function () {
-      console.log('Ad closed');
-      googletag.destroySlots([rewardedSlot]);
-      document.getElementById('treasure-popup').classList.add('hidden');
-      document.getElementById('treasure-popup').style.display = 'none';
-      nextQuestion(); // Ad band hone ke baad Q2 dikhega
-    });
-
-    googletag.display(rewardedSlot);
-  });
-}
 // Parse quiz data into JSON format and randomly select 2 questions
 const allQuizData = JSON.parse(quizjson);
 const selectedQuestions = getRandomQuestions(allQuizData, 2);
@@ -109,6 +70,7 @@ function showQuestion() {
   if (currentQuestionIndex === 1) {
     // Uncomment to enable interstitial ads at specific points
    // RewardAd();
+     treasureopen();
   }
 
   // Split answers and shuffle them
@@ -172,15 +134,7 @@ function checkAnswer(selectedAnswer, index) {
 
   resultElement.style.display = "none";
   //setTimeout(nextQuestion, 1000); // Move to next question after delay
-  if (currentQuestionIndex === 0) {
-  setTimeout(() => {
-   const popup = document.getElementById('treasure-popup');
-popup.classList.remove('hidden');
-popup.style.display = 'flex';
-  }, 1000);
-} else {
   setTimeout(nextQuestion, 1000);
-}
 }
 
 // Function to move to the next question
@@ -203,8 +157,8 @@ function nextQuestion() {
     localStorage.setItem("is_played", 1);
     localStorage.setItem("rewarded", 0);
     // closereward();
-   // treasureopen(); // Call function to handle end of quiz actions
-    window.location.href = '/playquiz.html';
+    treasureopen(); // Call function to handle end of quiz actions
+   // window.location.href = '/playquiz.html';
   }
 }
 
