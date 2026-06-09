@@ -137,18 +137,26 @@ function checkAnswer(selectedAnswer, index) {
   setTimeout(nextQuestion, 1000);
 }
 
-// Function to move to the next question
+// Add this flag at top with other variables
+let waitingForPopup = false;
+
+// Modify nextQuestion function
 function nextQuestion() {
   resultElement.style.display = "none";
   currentQuestionIndex++;
   let counting = currentQuestionIndex;
   document.getElementById("currentindex").innerText = counting + 1;
 
-  // Show next question or end quiz if all questions are answered
   if (currentQuestionIndex < quizData.data.length) {
-    showQuestion();
+    if (currentQuestionIndex === 1) {
+      // Show popup and WAIT - don't call showQuestion() yet
+      waitingForPopup = true;
+      treasureopen();
+      // showQuestion() will be called from HTML after popup closes
+    } else {
+      showQuestion();
+    }
   } else {
-    // End of quiz: Store total coins in local storage and trigger treasureopen() function
     quizContainer.innerHTML = `<input type="hidden" value="${coin}" id="coin">`;
     let getcoin = document.getElementById("coin").value;
     localStorage.setItem("coin", getcoin);
@@ -156,11 +164,42 @@ function nextQuestion() {
     localStorage.setItem("totalplayed", 0);
     localStorage.setItem("is_played", 1);
     localStorage.setItem("rewarded", 0);
-    // closereward();
-    //treasureopen(); // Call function to handle end of quiz actions
     window.location.href = '/playquiz.html';
   }
 }
+
+// Add this new function - called from HTML after popup is done
+function resumeQuizAfterPopup() {
+  if (waitingForPopup) {
+    waitingForPopup = false;
+    showQuestion();
+  }
+}
+
+// Function to move to the next question
+// function nextQuestion() {
+//   resultElement.style.display = "none";
+//   currentQuestionIndex++;
+//   let counting = currentQuestionIndex;
+//   document.getElementById("currentindex").innerText = counting + 1;
+
+//   // Show next question or end quiz if all questions are answered
+//   if (currentQuestionIndex < quizData.data.length) {
+//     showQuestion();
+//   } else {
+//     // End of quiz: Store total coins in local storage and trigger treasureopen() function
+//     quizContainer.innerHTML = `<input type="hidden" value="${coin}" id="coin">`;
+//     let getcoin = document.getElementById("coin").value;
+//     localStorage.setItem("coin", getcoin);
+//     localStorage.setItem("totalcoin", getcoin);
+//     localStorage.setItem("totalplayed", 0);
+//     localStorage.setItem("is_played", 1);
+//     localStorage.setItem("rewarded", 0);
+//     // closereward();
+//     //treasureopen(); // Call function to handle end of quiz actions
+//     window.location.href = '/playquiz.html';
+//   }
+// }
 
 // Start the quiz when the script runs
 startQuiz();
