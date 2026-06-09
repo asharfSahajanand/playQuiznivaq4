@@ -67,11 +67,11 @@ function showQuestion() {
   questionElement.innerText = currentQuestion.question;
 
   // Show interstitial ad only at specific question indexes to avoid excessive ads
-  if (currentQuestionIndex === 1) {
+ // if (currentQuestionIndex === 1) {
     // Uncomment to enable interstitial ads at specific points
    // RewardAd();
-     treasureopen();
-  }
+   //  treasureopen();
+  //}
 
   // Split answers and shuffle them
   const shuffledAnswers = [...currentQuestion.answer.split(",")];
